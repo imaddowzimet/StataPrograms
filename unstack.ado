@@ -46,7 +46,7 @@ if "`command2'"!="tabulate" {
 }
 
 * If user did not run a two-way tabulation, exit with error
-if missing(`colvar') {
+if "`colvar'"=="" {
 
 	noi di "-unstack- can only be run after a two-way tabulation, with estpost specified"
 	exit
