@@ -6,7 +6,6 @@ program define unstack
 two way, and stacks it so that it appears like a 'normal' two way crosstab.
 (estpost tab normally stores two way tabulations as a one column matrix, which
 is not normally how one would want to export it)
-
 This is an update of a previous program (also called unstack), implemented in
 a slightly different (and more robust) way than the original. It was updated
 in mid-August of 2017, and the previous version was archived. 
@@ -64,7 +63,6 @@ foreach mymatrix of newlist matrix row col cell count {
 /*
 Where results are stored is slightly different for svy: and non svy: tabulations
 so there are two slightly different implementations of the same idea below.
-
 The code essentially works by taking advantage of the fact that -estpost- always
 labels the "total" row in the same way; once we know which row the first "total"
 is in, we can divide the total matrix length by that number to figure out how 
@@ -75,7 +73,6 @@ categories, but it broke when an if statement was used that dropped one of the
 column or row variables completely (it didn't give incorrect results, luckily, 
 just didn't run); since this approach takes the number of categories from the 
 matrix directly, it doesn't have this issue, and it's also much more concise.  
-
 */
 ///////////////////////////
 
@@ -90,15 +87,17 @@ if "`prefix'"=="svy" {                                                          
 	matrix temprow    = e(row)'                                                 // row percentages
 	matrix tempcol    = e(col)'                                                 // col percentages
 	matrix tempcell   = e(cell)'                                                // cell percentages
-	matrix tempcount  = e(count)'
-	
+	matrix tempcount  = e(count)'                                               // weighted counts
+	matrix templb     = e(lb)'                                                  // lower bound CI
+	matrix tempub     = e(ub)'                                                  // lower bound CI
+
 	local totalrow = rownumb(matrix(tempmatrix), "Total")                       // locate first "Total" row
 	local Nrows  = rowsof(matrix(tempmatrix))                                   // count total number of rows in matrix
 	local iter   = `Nrows'/`totalrow'                                           // determine number of column variable categories
 	
 
 	
-	foreach mymatrix of newlist matrix row col cell count {                     // for each stored matrix
+	foreach mymatrix of newlist matrix row col cell count lb ub {               // for each stored matrix
 
 		local beginrow = 1                                                      // set first row for first iteration
 		local endrow   = `totalrow'                                             // set last row for first iteration
@@ -140,6 +139,9 @@ display in blue  "Matrix of weighted counts stored in: count"
 display  "Matrix of row percentages stored in: row"
 display  "Matrix of column percentages stored in: col"
 display  "Matrix of cell percentages stored in: cell"
+display  "Matrix of lower bounds of 95% confidence intervals of displayed statistics stored in: lb"
+display  "Matrix of upper bounds of 95% confidence intervals of displayed statistics stored in: ub"
+
 	
 }
 else {                                                                          // if not svyset 
