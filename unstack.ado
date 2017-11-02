@@ -133,7 +133,14 @@ if "`prefix'"=="svy" {                                                          
 		* drop temporary matrix
 		matrix drop temp`mymatrix'
 	}
-	
+* let the user know where the matrices are
+display in blue  "Matrix of weighted counts stored in: count"
+display  "Matrix of row percentages stored in: row"
+display  "Matrix of column percentages stored in: col"
+display  "Matrix of cell percentages stored in: cell"
+display  "Matrix of lower bounds of 95% confidence intervals of displayed statistics stored in: lb"
+display  "Matrix of upper bounds of 95% confidence intervals of displayed statistics stored in: ub"
+
 }
 else {                                                                          // if not svyset 
 
@@ -190,6 +197,11 @@ else {                                                                          
 		matrix drop temp`mymatrix'
 	}
 
+* let the user know where the matrices are
+display in blue  "Matrix of weighted counts stored in: count"
+display  "Matrix of row percentages stored in: row"
+display  "Matrix of column percentages stored in: col"
+display  "Matrix of cell percentages stored in: cell"
 			
 }
 
@@ -245,13 +257,7 @@ if `"`e(eqlabels)'"'!="" {
 }
 
 
-* let the user know where the matrices are
-display in blue  "Matrix of weighted counts stored in: count"
-display  "Matrix of row percentages stored in: row"
-display  "Matrix of column percentages stored in: col"
-display  "Matrix of cell percentages stored in: cell"
-display  "Matrix of lower bounds of 95% confidence intervals of displayed statistics stored in: lb"
-display  "Matrix of upper bounds of 95% confidence intervals of displayed statistics stored in: ub"
+
 
 
 end
