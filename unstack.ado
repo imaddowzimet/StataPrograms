@@ -133,15 +133,6 @@ if "`prefix'"=="svy" {                                                          
 		* drop temporary matrix
 		matrix drop temp`mymatrix'
 	}
-
-* let the user know where the matrices are
-display in blue  "Matrix of weighted counts stored in: count"
-display  "Matrix of row percentages stored in: row"
-display  "Matrix of column percentages stored in: col"
-display  "Matrix of cell percentages stored in: cell"
-display  "Matrix of lower bounds of 95% confidence intervals of displayed statistics stored in: lb"
-display  "Matrix of upper bounds of 95% confidence intervals of displayed statistics stored in: ub"
-
 	
 }
 else {                                                                          // if not svyset 
@@ -199,14 +190,68 @@ else {                                                                          
 		matrix drop temp`mymatrix'
 	}
 
-display in blue  "Matrix of  counts stored in: count"
-display  "Matrix of row percentages stored in: row"
-display  "Matrix of column percentages stored in: col"
-display  "Matrix of cell percentages stored in: cell"	
-	
-	
+			
 }
 
+///////////////////////////////////////////////////////////////////////
+* Special case: If value labels have the form "#.name", estpost doesn't 
+* store them in its matrix. This code resolves this issue, and relabels
+* the matrix rows and columns
+////////////////////////////////////////////////////////////////////////
+if `"`e(labels)'"'!="" {                                                          // if stored row labels exist
+
+	* Put the stored labels in a variable (which we will delete later) 
+	qui gen _rowlabels1987 = e(labels) if _n == 1
+	
+	* Remove "extra characters" from what estpost stores
+	while regexm(_rowlabels1987, "[1-9]+[ ]") {
+		
+		qui replace _rowlabels1987 = regexr(_rowlabels1987, "[1-9]+[ ]", "") if _n == 1
+	
+	}
+	
+	* Bring the label string back into a local, and drop the variable
+	local a =  _rowlabels1987
+	drop _rowlabels1987
+	
+	foreach mymatrix of newlist row col cell count {
+	
+		mat rownames `mymatrix' = `a' "Total"
+	
+	}
+}
+if `"`e(eqlabels)'"'!="" {
+
+	* Put the stored labels in a variable (which we will delete later) 
+	qui gen _collabels1987 = e(eqlabels) if _n == 1
+	
+	* Remove "extra characters" from what estpost stores
+	while regexm(_collabels1987, "[1-9]+[ ]") {
+		
+		qui replace _collabels1987 = regexr(_collabels1987, "[1-9]+[ ]", "") if _n == 1
+	
+	}
+	
+	* Bring the label string back into a local, and drop the variable
+	local a =  _collabels1987
+	drop _collabels1987
+	
+	foreach mymatrix of newlist row col cell count {
+	
+		mat colnames `mymatrix' = `a' "Total"
+	
+	}
+
+}
+
+
+* let the user know where the matrices are
+display in blue  "Matrix of weighted counts stored in: count"
+display  "Matrix of row percentages stored in: row"
+display  "Matrix of column percentages stored in: col"
+display  "Matrix of cell percentages stored in: cell"
+display  "Matrix of lower bounds of 95% confidence intervals of displayed statistics stored in: lb"
+display  "Matrix of upper bounds of 95% confidence intervals of displayed statistics stored in: ub"
 
 
 end
