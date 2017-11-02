@@ -1,7 +1,7 @@
 v 3
 d unstack
 d Program to unstack
-d Distribution-Date: 20170814
+d Distribution-Date: 20171102
 d Author: Isaac Maddow-Zimet
 d Contact: imaddowzimet@gmail.com
 f unstack.ado
