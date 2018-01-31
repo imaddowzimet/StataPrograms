@@ -224,7 +224,7 @@ if `"`e(labels)'"'!="" {                                                        
 	* Remove the extra designations estpost stores if there are missing values
 	foreach mymissingcode of numlist 97/122 {
 		
-		replace _rowlabels1987 = regexr(_rowlabels1987, "_missing_`=char(`mymissingcode')'", "") if _n == 1
+		qui replace _rowlabels1987 = regexr(_rowlabels1987, "_missing_`=char(`mymissingcode')'", "") if _n == 1
 	
 	}
 	
