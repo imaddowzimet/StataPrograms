@@ -234,7 +234,10 @@ if `"`e(labels)'"'!="" {                                                        
 	
 	foreach mymatrix of newlist row col cell count {
 	
-		mat rownames `mymatrix' = `a' "Total"
+		local check: word count `a'                                             // make sure that we have the same number of value labels as we do rows
+		if `=`totalrow'-1'==`check' {
+			mat rownames `mymatrix' = `a' "Total"
+	    }
 	
 	}
 }
