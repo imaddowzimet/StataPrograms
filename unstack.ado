@@ -221,6 +221,12 @@ if `"`e(labels)'"'!="" {                                                        
 		qui replace _rowlabels1987 = regexr(_rowlabels1987, "[1-9]+[ ]", "") if _n == 1
 	
 	}
+	* Remove the extra designations estpost stores if there are missing values
+	foreach mymissingcode of numlist 97/122 {
+		
+		replace _rowlabels1987 = regexr(_rowlabels1987, "_missing_`=char(`mymissingcode')'", "") if _n == 1
+	
+	}
 	
 	* Bring the label string back into a local, and drop the variable
 	local a =  _rowlabels1987
