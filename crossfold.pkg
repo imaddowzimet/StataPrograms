@@ -1,0 +1,7 @@
+v 3
+d crossfold
+d Modification of crossfold program on SSC
+d Distribution-Date: 20180627
+d Author: Benjamin Daniels, modified slightly by Isaac Maddow-Zimet
+d Contact: imaddowzimet@gmail.com (if about the modified program, otherwise bbdaniels@gmail.com)
+f crossfold.ado
