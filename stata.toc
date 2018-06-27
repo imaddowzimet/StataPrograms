@@ -1,4 +1,6 @@
 v 3
 d Program to unstack
 p unstack [The unstack.ado program]
+d Crossfold
+p crossfold [The crossfold.ado program]
 
