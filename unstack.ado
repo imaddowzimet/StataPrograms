@@ -89,15 +89,16 @@ if "`prefix'"=="svy" {                                                          
 	matrix tempcell   = e(cell)'                                                // cell percentages
 	matrix tempcount  = e(count)'                                               // weighted counts
 	matrix templb     = e(lb)'                                                  // lower bound CI
-	matrix tempub     = e(ub)'                                                  // lower bound CI
-
+	matrix tempub     = e(ub)'                                                  // upper bound CI
+        matrix tempse     = e(se)'                                                  // standard error
+	
 	local totalrow = rownumb(matrix(tempmatrix), "Total")                       // locate first "Total" row
 	local Nrows  = rowsof(matrix(tempmatrix))                                   // count total number of rows in matrix
 	local iter   = `Nrows'/`totalrow'                                           // determine number of column variable categories
 	
 
 	
-	foreach mymatrix of newlist matrix row col cell count lb ub {               // for each stored matrix
+	foreach mymatrix of newlist matrix row col cell count lb ub se {               // for each stored matrix
 
 		local beginrow = 1                                                      // set first row for first iteration
 		local endrow   = `totalrow'                                             // set last row for first iteration
@@ -140,6 +141,7 @@ display  "Matrix of column percentages stored in: col"
 display  "Matrix of cell percentages stored in: cell"
 display  "Matrix of lower bounds of 95% confidence intervals of displayed statistics stored in: lb"
 display  "Matrix of upper bounds of 95% confidence intervals of displayed statistics stored in: ub"
+display  "Matrix of standard errors of displayed statistics stored in: se"
 
 }
 else {                                                                          // if not svyset 
