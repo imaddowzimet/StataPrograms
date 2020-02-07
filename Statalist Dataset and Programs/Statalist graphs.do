@@ -1,13 +1,5 @@
 use "https://github.com/imaddowzimet/StataPrograms/raw/master/Statalist%20Dataset%20and%20Programs/StatalistPosts.dta", clear
 
-* A bit of reformatting and clean up
-set more off
-gen year= year(Date)
-gen month = month(Date)
-gen dow = dow(Date)
-decode Title, gen(titlestring)
-drop Title
-graph drop _all
 
 ///////////
 * Graphs:
@@ -21,13 +13,13 @@ collapse (sum) count, by(Date)
 graph twoway (line count Date, color("gs5"))                                    ///
              (lowess count Date, color("midblue")),                             ///
               scheme(s1color) ytitle("Number of posts") xtitle("")              ///
-			  tlabel(01jan2014 01jan2015 01jan2016 01jan2017, format(%dM-CY))   ///
-			  title("Frequency of Statalist posts, by day, 2014-2017.",         ///
+			  tlabel(01jan2014 01jan2015 01jan2016 01jan2017 01jan2018 01jan2019 01jan2020, format(%dm-CY))   ///
+			  title("Frequency of Statalist posts, by day, 2014-2020.",         ///
 			         size(msmall))                                              ///
 		      legend(off)                                                       ///
 			  tline(31mar2014, lcolor("orange_red") lpattern("dash"))           ///
-			  ttext(60 01apr2014 "<- Statalist's auspicious beginnings, March 31st, 2014", place(e) size(vsmall)) name(graph1)
-			   
+			  ttext(60 01apr2014 "<- Statalist's auspicious beginnings, March 31st, 2014", place(e) size(small)) name(graph1)
+
 
 restore
 
