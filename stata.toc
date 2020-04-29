@@ -3,4 +3,6 @@ d Program to unstack
 p unstack [The unstack.ado program]
 d Crossfold
 p crossfold [The crossfold.ado program]
+d Program to create pretty HTML codebook
+p prettycodebook [The prettycodebook.ado program]
 
