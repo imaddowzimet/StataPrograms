@@ -224,7 +224,8 @@ if `"`e(labels)'"'!="" {                                                        
 	
 	}
 	* Remove the extra designations estpost stores if there are missing values
-	foreach mymissingcode of numlist 97/122 {
+	qui replace _rowlabels1987 = regexr(_rowlabels1987, "_missing_[a-z]*", "") if _n == 1
+	foreach mymissingcode of numlist 97/122 {                                   // this may no longer be necessary; estpost used to handle missing value codes in a slightly different way, but it seems like it changed (I'm not sure of the precise version number when it did). It doesn't break anything so am leaving it in in case anyone is using an old version of estpost. 
 		
 		qui replace _rowlabels1987 = regexr(_rowlabels1987, "_missing_`=char(`mymissingcode')'", "") if _n == 1
 	
@@ -274,3 +275,4 @@ if `"`e(eqlabels)'"'!="" {
 end
 
 exit
+
